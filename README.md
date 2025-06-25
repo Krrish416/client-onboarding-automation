@@ -1,6 +1,3 @@
-# client-onboarding-automation
-A complete no-code client onboarding workflow built using Google Forms, Sheets, Docs, Drive, and Gmail via n8n.
-
 # Client Onboarding Automation (n8n + Google Workspace)
 
 This is a complete no-code automation built using **n8n** and **Google Workspace** tools — designed to automate the entire client onboarding process from form submission to personalized PDF contract delivery via email.
