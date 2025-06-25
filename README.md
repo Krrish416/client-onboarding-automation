@@ -78,9 +78,7 @@ You can reach out to me for:
 
 ## 📬 Contact
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: *(Add your link here if you'd like)*
-- Email: *(Optional)*
+- GitHub: [@Krrish416](https://github.com/Krrish416)
 
 ---
 
