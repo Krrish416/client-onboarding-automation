@@ -1,0 +1,230 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1Io7aQgjRDzKuVWvIXaXM85XaeuiUih0ivDtRTQOA03A",
+          "mode": "list",
+          "cachedResultName": "Contact Information (Responses)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Io7aQgjRDzKuVWvIXaXM85XaeuiUih0ivDtRTQOA03A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1247450406,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Io7aQgjRDzKuVWvIXaXM85XaeuiUih0ivDtRTQOA03A/edit#gid=1247450406"
+        },
+        "options": {}
+      },
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -180
+      ],
+      "id": "8a0eeeb0-9cf4-480d-9a32-c4314e0b6514",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "LJ7kshNVtE3utPEu",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "update",
+        "documentURL": "={{$node[\"Google Drive\"].json[\"id\"]}}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "{{name}}",
+              "replaceText": "={{ $('Google Sheets Trigger').item.json.Name }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{email}}",
+              "replaceText": "={{ $('Google Sheets Trigger').item.json.Email }}"
+            }
+          ]
+        }
+      },
+      "name": "Export as PDF",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -180
+      ],
+      "id": "32599e89-5966-4b92-93a3-4fb35a7315c3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "NPjWy4OV7QoJP29i",
+          "name": "Google Docs account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1YtNrENz1EM3ZM-K8XO-eSEuBwla3eMK46MwzU7mbG1s",
+          "mode": "list",
+          "cachedResultName": "Client_Onboarding_Template",
+          "cachedResultUrl": "https://docs.google.com/document/d/1YtNrENz1EM3ZM-K8XO-eSEuBwla3eMK46MwzU7mbG1s/edit?usp=drivesdk"
+        },
+        "name": "=Client_{{$json[\"Name\"]}}_Contract",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        660,
+        -180
+      ],
+      "id": "b6c6855f-733b-4c36-8c81-4073490ed899",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "97FUEuE9yN6bLlwG",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{$node[\"Google Drive\"].json[\"id\"]}}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1100,
+        -180
+      ],
+      "id": "e70da23a-4352-4746-b5a1-c91ca00ca779",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "97FUEuE9yN6bLlwG",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json.Email }}",
+        "subject": "=Welcome to Our Services, {{ $('Google Sheets Trigger').item.json.Name }}",
+        "message": "=Hi {{ $('Google Sheets Trigger').item.json.Name }},\n\nThanks for joining us! Please find your onboarding contract attached.\n\nIf you have any questions, feel free to reply to this email.\n\nCheers,  \nYour Team\n\n\n",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "=data"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1320,
+        -180
+      ],
+      "id": "796af490-1035-4b6e-b3d3-5298269ab67c",
+      "name": "Gmail",
+      "webhookId": "b9ffed36-ed1e-4c2d-8978-5815f4f40bc3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fNd1YZIixOglMIT0",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Export as PDF": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Export as PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5ce53617-01a3-4eb6-9f9c-a2e843c535d6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2dc4900e0a3b680d5262b0295852ccd117ba06f11904d6fd9a0fdf34655c4c80"
+  },
+  "id": "hVKFjm2wMWtcEkpf",
+  "tags": []
+}
