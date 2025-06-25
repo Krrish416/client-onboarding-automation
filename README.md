@@ -51,7 +51,7 @@ This is a complete no-code automation built using **n8n** and **Google Workspace
 
 | File | Description |
 |------|-------------|
-| `onboarding-workflow.json` | Exported n8n workflow file |
+| `My_workflow.json` | Exported n8n workflow file |
 | `README.md` | You're reading it :) |
 
 ---
